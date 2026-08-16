@@ -1,0 +1,4 @@
+# 注册统一走 profile 的 cordis.patch.yml（insert），以支持 HMR 注册即生效，
+# 并避免与 bundle 层重复 insert（重启后报 duplicate loader entry id）。
+# 本 bundle 只提供模块（main: index.js）+ dsh.bundle 声明，供 loader 按包名解析。
+[]
