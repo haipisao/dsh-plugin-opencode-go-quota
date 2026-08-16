@@ -2,6 +2,8 @@
 
 OpenCode Go 额度悬浮窗 —— DeepSeek Harness (DSH) Web GUI 插件。
 
+> 本插件由 **DeepSeek V4 Flash**（`deepseek-v4-flash`）开发，全程在 DSH 会话中完成设计、实现、调试与发布。
+
 页面右下角**圆形悬浮按钮**（opencode 官方图标，**可鼠标拖动**），点击展开**弹窗**
 展示当前所选 OpenCode Go 账号套餐各周期额度（5 小时滚动 / 每周 / 每月）的已用
 百分比、限额与重置时间；再点按钮或 × 收起。弹窗打开期间每 5 分钟自动刷新。
