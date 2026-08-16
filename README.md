@@ -1,5 +1,11 @@
 # dsh-plugin-opencode-go-quota
 
+<p align="center">
+  <img alt="GitHub stars" src="https://img.shields.io/github/stars/haipisao/dsh-plugin-opencode-go-quota?style=flat-square" />
+  <img alt="version" src="https://img.shields.io/github/package-json/v/haipisao/dsh-plugin-opencode-go-quota?style=flat-square" />
+  <img alt="license" src="https://img.shields.io/github/license/haipisao/dsh-plugin-opencode-go-quota?style=flat-square" />
+</p>
+
 OpenCode Go 额度悬浮窗 —— DeepSeek Harness (DSH) Web GUI 插件。
 
 > 本插件由 **DeepSeek V4 Flash**（`deepseek-v4-flash`）开发，全程在 DSH 会话中完成设计、实现、调试与发布。
@@ -173,6 +179,25 @@ dsh --profile web --dump-config | grep opencode-go-quota                        
 | `lib/client.js` | client 端 bundle：`shell.overlay` 槽位注入图标按钮 + 弹窗（手写 `window.__ModuleLoader__.load` 格式，免构建）；拖动、按选中模型显隐 |
 | `cordis.patch.yml` | 空 patch（注册统一走 profile 层，避免重启后 duplicate loader entry id） |
 | `index.js` | 兼容转发 shim，**仅开发热更场景用，不随 npm 包发布**（新进程直接按 main 加载 lib/index.js） |
+
+## 支持与分享
+
+觉得好用的话，求个 ⭐ 支持一下，也欢迎分享给需要的朋友：
+
+- ⭐ Star：[https://github.com/haipisao/dsh-plugin-opencode-go-quota](https://github.com/haipisao/dsh-plugin-opencode-go-quota)
+- 一键分享文案（直接复制）：
+
+> DSH 插件推荐：OpenCode Go 额度悬浮窗 —— 右下角可拖动的图标按钮，随时查看 5 小时/每周/每月额度，多账号自动对应，仅选中 opencode go 模型时显示。GitHub：https://github.com/haipisao/dsh-plugin-opencode-go-quota
+
+- 反馈 / 需求 / Bug：GitHub [Issues](https://github.com/haipisao/dsh-plugin-opencode-go-quota/issues)
+- 收录：欢迎投稿 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) DSH 插件精选列表
+
+## 致谢
+
+- [anomalyco/opencode](https://github.com/anomalyco/opencode) —— 悬浮按钮内联的 opencode 官方图标（`favicon-v3.svg`）
+- [xiaoqi20/dsh-opencode-go-usage](https://github.com/xiaoqi20/dsh-opencode-go-usage) —— API key 解析顺序、usage 端点与防御式解析思路的直接参考
+- [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) —— 插件运行平台与客户端槽位（`shell.overlay`）体系
+- 同类调研参考：[omdsh-dev/dsh-usage-stats](https://github.com/omdsh-dev/dsh-usage-stats)、[slkiser/opencode-quota](https://github.com/slkiser/opencode-quota) 等（功能对比与安全设计启发）
 
 ## License
 
