@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-opencode-go-quota",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OpenCode Go 额度悬浮窗：Web 页面右下角圆形按钮，点击展开弹窗展示 5 小时滚动/每周/每月三个周期的额度用量（percent、限额、重置时间），可随时收起为圆形按钮。",
   "type": "module",
   "main": "./lib/index.js",
@@ -10,6 +10,12 @@
     "README.md"
   ],
   "license": "MIT",
+  "author": "haipisao",
+  "homepage": "https://github.com/haipisao/dsh-plugin-opencode-go-quota",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haipisao/dsh-plugin-opencode-go-quota.git"
+  },
   "keywords": [
     "deepseek-harness",
     "dsh",

@@ -12,6 +12,8 @@ OpenCode Go 额度悬浮窗 —— DeepSeek Harness (DSH) Web GUI 插件。
 切换到其他模型（如 deepseek-official）自动隐藏；多 opencode go 账号（含自定义
 路由）按所选 provider 自动对应各自的 API key 与额度。
 
+![OpenCode Go 额度弹窗](docs/opencode-go-quota.png)
+
 ## 安装
 
 ### 方式一：从 GitHub 安装（推荐）
@@ -23,11 +25,11 @@ dsh plugin --profile web add github:haipisao/dsh-plugin-opencode-go-quota
 ### 方式二：从打包 tarball 安装
 
 ```bash
-# 解压或直接指向 tgz（npm pack 产物）
-dsh plugin --profile web add ./dsh-plugin-opencode-go-quota-0.1.0.tgz
+# npm pack 产物（本地 `npm pack` 生成，或从 GitHub Releases 下载）
+dsh plugin --profile web add ./dsh-plugin-opencode-go-quota-0.1.1.tgz
 ```
 
-### 方式三：本地源码目录（开发）
+### 方式三：本地源码目录（开发调试）
 
 ```bash
 dsh plugin --profile web add ./packages/dsh-plugin-opencode-go-quota
@@ -65,7 +67,7 @@ dsh plugin --profile web add ./packages/dsh-plugin-opencode-go-quota
 执行步骤：
 1. 安装插件包（二选一）：
    - dsh plugin --profile web add github:haipisao/dsh-plugin-opencode-go-quota
-   - 或本地 tarball：dsh plugin --profile web add ./dsh-plugin-opencode-go-quota-0.1.0.tgz
+   - 或本地 tarball：dsh plugin --profile web add ./dsh-plugin-opencode-go-quota-0.1.1.tgz
 2. 在 ~/.dsh/profiles/web/cordis.patch.yml 追加注册行（若已存在相同 id 则跳过，不要重复插入）：
    - insert:
        - id: opencode-go-quota
@@ -114,6 +116,15 @@ dsh plugin --profile web add ./packages/dsh-plugin-opencode-go-quota
    当前「路由」标识、手动刷新；再点按钮或 × 收起。
 4. 切到其他模型 → 按钮自动隐藏。
 
+## 卸载
+
+```bash
+dsh plugin --profile web remove dsh-plugin-opencode-go-quota
+```
+
+并删除 `~/.dsh/profiles/web/cordis.patch.yml` 里 `opencode-go-quota` 的 insert 注册行。
+（实测：依赖、bundle 清单、node_modules 与注册行全部清除后，重启实例无任何残留。）
+
 ## 数据源
 
 官方用量端点（未公开文档，解析为防御式）：
@@ -149,6 +160,8 @@ GET /opencode-go-quota/api/usage?provider=<llm-pi-ai 路由 id>
 | `limits` | `$12/$30/$60` | 三周期限额显示文本 |
 
 ## 验证
+
+> 以下命令中的 `3080` 为默认端口，实际端口以你的 `dsh web` 为准。
 
 ```bash
 node --check lib/index.js && node --check lib/client.js
