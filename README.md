@@ -82,7 +82,7 @@ dsh plugin --profile web add ./packages/dsh-plugin-opencode-go-quota
                keyRef: OPENCODE_GO_API_KEY_2
 3. 确认 API key 已配置在 DSH credentials seam（~/.dsh/.credentials.yaml 或进程环境变量）：
    OPENCODE_GO_API_KEY（账号 1）、OPENCODE_GO_API_KEY_2（账号 2，可选）；
-   都没有时 host 会回退读 OpenCode CLI 的 auth.json。
+   auth.json 兜底仅在未显式配置 keyRef 时（默认 opencode-go 场景）生效，按平台探测路径。
 4. 验证（全部通过才算完成）：
    - dsh --profile web --dump-config | grep opencode-go-quota        # 注册行已挂载
    - curl "http://127.0.0.1:3080/opencode-go-quota/api/usage?provider=opencode-go-2"
@@ -103,7 +103,11 @@ dsh plugin --profile web add ./packages/dsh-plugin-opencode-go-quota
    openai-completions 风格均可），并配置对应 API key：
    - `OPENCODE_GO_API_KEY`（credentials seam：`~/.dsh/.credentials.yaml` 或环境变量）
    - 第二个账号 `OPENCODE_GO_API_KEY_2`（如需）
-   - 也可不配置，host 会回退读 OpenCode CLI 的 `~/.local/share/opencode/auth.json`
+   - 未显式配置 keyRef 时（默认 `opencode-go` 场景），host 会回退读 OpenCode CLI
+     的 `auth.json`（按平台探测：Windows `%LOCALAPPDATA%/opencode`、macOS
+     `~/Library/Application Support/opencode`、Linux `~/.local/share/opencode`，
+     可用 `OPENCODE_GO_AUTH_PATH` 覆盖）；其余 provider 缺 key 会明确提示
+     「未找到 API Key」，绝不静默串用其他账号的 key
 2. 把会话模型切到 opencode go 系（如 `opencode-go/deepseek-v4-flash`）——
    右下角出现 opencode 图标按钮（可拖动）。
 3. 点击按钮展开弹窗：三个周期额度（百分比进度条 + 限额 + 重置时间）、
@@ -160,7 +164,7 @@ dsh --profile web --dump-config | grep opencode-go-quota                        
 | `lib/index.js` | host 端：同源 API（读 key → 拉官方端点 → 按 provider 归一化返回） |
 | `lib/client.js` | client 端 bundle：`shell.overlay` 槽位注入图标按钮 + 弹窗（手写 `window.__ModuleLoader__.load` 格式，免构建）；拖动、按选中模型显隐 |
 | `cordis.patch.yml` | 空 patch（注册统一走 profile 层，避免重启后 duplicate loader entry id） |
-| `index.js` | 兼容转发 shim（开发热更场景用，新进程直接按 main 加载 lib/index.js） |
+| `index.js` | 兼容转发 shim，**仅开发热更场景用，不随 npm 包发布**（新进程直接按 main 加载 lib/index.js） |
 
 ## License
 
