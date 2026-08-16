@@ -55,6 +55,48 @@ dsh plugin --profile web add ./packages/dsh-plugin-opencode-go-quota
 
 > 首次安装新 bundle 后，若 HMR 未生效，重启一次 `dsh web` 即可。
 
+## 交给 Agent 安装（提示词模板）
+
+把下面整段复制给任意 AI agent（DSH 会话或其他助手），即可由它完成安装与验证：
+
+````text
+请帮我安装 DSH 插件 dsh-plugin-opencode-go-quota（OpenCode Go 额度悬浮窗，GitHub: haipisao/dsh-plugin-opencode-go-quota）。
+
+执行步骤：
+1. 安装插件包（二选一）：
+   - dsh plugin --profile web add github:haipisao/dsh-plugin-opencode-go-quota
+   - 或本地 tarball：dsh plugin --profile web add ./dsh-plugin-opencode-go-quota-0.1.0.tgz
+2. 在 ~/.dsh/profiles/web/cordis.patch.yml 追加注册行（若已存在相同 id 则跳过，不要重复插入）：
+   - insert:
+       - id: opencode-go-quota
+         name: dsh-plugin-opencode-go-quota
+         config:
+           timeoutMs: 15000
+           visibleProviders: [opencode-go, opencode-go-2]
+           providers:
+             opencode-go:
+               usageUrl: https://opencode.ai/zen/go/v1/usage
+               keyRef: OPENCODE_GO_API_KEY
+             opencode-go-2:
+               usageUrl: https://opencode.ai/zen/go/v1/usage
+               keyRef: OPENCODE_GO_API_KEY_2
+3. 确认 API key 已配置在 DSH credentials seam（~/.dsh/.credentials.yaml 或进程环境变量）：
+   OPENCODE_GO_API_KEY（账号 1）、OPENCODE_GO_API_KEY_2（账号 2，可选）；
+   都没有时 host 会回退读 OpenCode CLI 的 auth.json。
+4. 验证（全部通过才算完成）：
+   - dsh --profile web --dump-config | grep opencode-go-quota        # 注册行已挂载
+   - curl "http://127.0.0.1:3080/opencode-go-quota/api/usage?provider=opencode-go-2"
+       → 返回 visible:true 且 usage 含 rolling/weekly/monthly 三个窗口
+   - curl "http://127.0.0.1:3080/opencode-go-quota/api/usage?provider=deepseek-official"
+       → 返回 visible:false（其他模型必须隐藏）
+   - curl "http://127.0.0.1:3080/plugins/dsh-plugin-opencode-go-quota/client.js" → 200
+   - 刷新页面，选中 opencode go 系模型后右下角出现可拖动的图标按钮；切到其他模型自动隐藏
+5. 注意：
+   - 首次安装新 bundle 若路由 404（HMR 未生效），重启一次 dsh web；
+   - 不要修改插件源码；config 覆盖请通过注册行 config 完成；
+   - 若页面未出现按钮，优先检查第 3 步 key 与第 4 步 visible 判定。
+````
+
 ## 使用
 
 1. 刷新页面，在「设置 → 模型」里确保有 opencode-go 系 provider（Anthropic 或
