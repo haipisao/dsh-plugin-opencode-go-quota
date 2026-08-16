@@ -133,11 +133,9 @@ dsh plugin --profile web remove dsh-plugin-opencode-go-quota
 
 ## 数据源
 
-官方用量端点（未公开文档，解析为防御式）：
-未公开
-返回 `usage.rolling / usage.weekly / usage.monthly` 三个窗口的 `percent`（0–100）
-与 `resetsAt`（ISO-8601）。限额（`$12 / $30 / $60`）为套餐静态值，仅作参考，
-可在配置里覆盖。
+官方用量端点（接口未公开，解析为防御式），返回 `usage.rolling / usage.weekly / usage.monthly`
+三个窗口的 `percent`（0–100）与 `resetsAt`（ISO-8601）。限额（`$12 / $30 / $60`）为
+套餐静态值，仅作参考，可在配置里覆盖。
 
 ## host API（可选，自检用）
 
@@ -199,8 +197,7 @@ dsh --profile web --dump-config | grep opencode-go-quota                        
 - [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) —— 插件运行平台与客户端槽位（`shell.overlay`）体系
 - 同类调研参考：[omdsh-dev/dsh-usage-stats](https://github.com/omdsh-dev/dsh-usage-stats)、[slkiser/opencode-quota](https://github.com/slkiser/opencode-quota) 等（功能对比与安全设计启发）
 
-> 💡 **互推**：以上参考项目都很优秀，觉得有用也请顺手 ⭐ 支持一下；如果你也有 DSH 插件想被更多人看到，欢迎投稿 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 精选列表。
-
+> 💡 **互推**：以上参考项目都很优秀，觉得有用也请顺手 ⭐ 支持一下。
 ## License
 
 MIT
