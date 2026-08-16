@@ -128,12 +128,7 @@ dsh plugin --profile web remove dsh-plugin-opencode-go-quota
 ## 数据源
 
 官方用量端点（未公开文档，解析为防御式）：
-
-```http
-GET https://opencode.ai/zen/go/v1/usage
-Authorization: Bearer <API_KEY>
-```
-
+未公开
 返回 `usage.rolling / usage.weekly / usage.monthly` 三个窗口的 `percent`（0–100）
 与 `resetsAt`（ISO-8601）。限额（`$12 / $30 / $60`）为套餐静态值，仅作参考，
 可在配置里覆盖。
