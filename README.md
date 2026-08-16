@@ -199,6 +199,8 @@ dsh --profile web --dump-config | grep opencode-go-quota                        
 - [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) —— 插件运行平台与客户端槽位（`shell.overlay`）体系
 - 同类调研参考：[omdsh-dev/dsh-usage-stats](https://github.com/omdsh-dev/dsh-usage-stats)、[slkiser/opencode-quota](https://github.com/slkiser/opencode-quota) 等（功能对比与安全设计启发）
 
+> 💡 **互推**：以上参考项目都很优秀，觉得有用也请顺手 ⭐ 支持一下；如果你也有 DSH 插件想被更多人看到，欢迎投稿 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 精选列表。
+
 ## License
 
 MIT
