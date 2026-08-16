@@ -195,7 +195,7 @@ dsh --profile web --dump-config | grep opencode-go-quota                        
 ## 致谢
 
 - [anomalyco/opencode](https://github.com/anomalyco/opencode) —— 悬浮按钮内联的 opencode 官方图标（`favicon-v3.svg`）
-- [xiaoqi20/dsh-opencode-go-usage](https://github.com/xiaoqi20/dsh-opencode-go-usage) —— API key 解析顺序、usage 端点与防御式解析思路的直接参考
+- [xiaoqi20/dsh-opencode-go-usage](https://github.com/xiaoqi20/dsh-opencode-go-usage) —— API key 解析顺序、usage 端点与防御式解析思路，以及额度卡片（窗口卡/进度条/设计令牌）样式的直接参考
 - [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) —— 插件运行平台与客户端槽位（`shell.overlay`）体系
 - 同类调研参考：[omdsh-dev/dsh-usage-stats](https://github.com/omdsh-dev/dsh-usage-stats)、[slkiser/opencode-quota](https://github.com/slkiser/opencode-quota) 等（功能对比与安全设计启发）
 
