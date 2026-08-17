@@ -13,6 +13,9 @@ OpenCode Go 额度悬浮窗 —— DeepSeek Harness (DSH) Web GUI 插件。
 页面右下角**圆形悬浮按钮**（opencode 官方图标，**可鼠标拖动**），点击展开**弹窗**
 展示当前所选 OpenCode Go 账号套餐各周期额度（5 小时滚动 / 每周 / 每月）的已用
 百分比、限额与重置时间；再点按钮或 × 收起。弹窗打开期间每 5 分钟自动刷新。
+**限额文本按当前所选模型显示**：2026-05 官方调价后，DeepSeek V4 Flash/Pro 等
+高价模型的每月使用额度只有 $15，弹窗对应显示 `$3 / $7.5 / $15`；普通模型显示
+`$12 / $30 / $60`。
 
 **核心行为**：仅当当前会话选中的模型属于 opencode go 系 provider 时才显示按钮，
 切换到其他模型（如 deepseek-official）自动隐藏；多 opencode go 账号（含自定义
@@ -32,7 +35,7 @@ dsh plugin --profile web add github:haipisao/dsh-plugin-opencode-go-quota
 
 ```bash
 # npm pack 产物（本地 `npm pack` 生成，或从 GitHub Releases 下载）
-dsh plugin --profile web add ./dsh-plugin-opencode-go-quota-0.1.1.tgz
+dsh plugin --profile web add ./dsh-plugin-opencode-go-quota-0.1.3.tgz
 ```
 
 ### 方式三：本地源码目录（开发调试）
@@ -73,7 +76,7 @@ dsh plugin --profile web add ./packages/dsh-plugin-opencode-go-quota
 执行步骤：
 1. 安装插件包（二选一）：
    - dsh plugin --profile web add github:haipisao/dsh-plugin-opencode-go-quota
-   - 或本地 tarball：dsh plugin --profile web add ./dsh-plugin-opencode-go-quota-0.1.1.tgz
+   - 或本地 tarball：dsh plugin --profile web add ./dsh-plugin-opencode-go-quota-0.1.3.tgz
 2. 在 ~/.dsh/profiles/web/cordis.patch.yml 追加注册行（若已存在相同 id 则跳过，不要重复插入）：
    - insert:
        - id: opencode-go-quota
@@ -134,8 +137,15 @@ dsh plugin --profile web remove dsh-plugin-opencode-go-quota
 ## 数据源
 
 官方用量端点（接口未公开，解析为防御式），返回 `usage.rolling / usage.weekly / usage.monthly`
-三个窗口的 `percent`（0–100）与 `resetsAt`（ISO-8601）。限额（`$12 / $30 / $60`）为
-套餐静态值，仅作参考，可在配置里覆盖。
+三个窗口的 `percent`（0–100）与 `resetsAt`（ISO-8601）。限额为套餐静态值，仅作参考：
+
+- 套餐基础限额：**5 小时 `$12` / 每周 `$30` / 每月 `$60`**；
+- 2026-05 官方调价后，以下模型的每月使用额度只有 **`$15`**（其余模型 `$60`）：
+  `deepseek-v4-pro` / `deepseek-v4-flash` / `grok-4.5` / `gpt-5.6-luna` / `glm-5.3` /
+  `kimi-k3` / `mimo-v2.5-pro` / `qwen3.8-max`；
+- 弹窗**按当前所选模型**显示限额：`$15` 额度模型对应 `$3 / $7.5 / $15`，
+  普通模型恢复 `$12 / $30 / $60`（限额 = 套餐限额 × credit/60）；
+- 模型额度表可用配置 `modelCredits` 覆盖（官方再调价时优先改这里）。
 
 ## host API（可选，自检用）
 
@@ -156,7 +166,8 @@ GET /opencode-go-quota/api/usage?provider=<llm-pi-ai 路由 id>
 | `visibleProviders` | `providers` 的键；缺省 `[opencode-go, opencode-go-2]` | 显示悬浮窗的 provider 名单 |
 | `providers.<id>.usageUrl` | 设置推导（baseURL + `/usage`）或官方默认 | 该路由的用量端点 |
 | `providers.<id>.keyRef` | 设置推导（apiKeyEnv） | 该路由的凭据引用（credentials seam / env） |
-| `limits` | `$12/$30/$60` | 三周期限额显示文本 |
+| `limits` | `$12/$30/$60` | 套餐基础限额显示文本（三个周期） |
+| `modelCredits.<model>` | 内置表（见「数据源」；未知模型 `60`） | 模型月度使用额度（美元）；限额 = 套餐限额 × credit/60 |
 
 ## 验证
 
